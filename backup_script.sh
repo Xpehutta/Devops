@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+#set termination conditions
+set -euo pipefail 
 
 {
+#Check the numbers of inputs and their validity: -d - the directory to backup; -a - the compression algorithm to use; -o - the output file name
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -d|--dir)
@@ -21,6 +23,7 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
+#Set the compression algorithm to use for tar command
 case $algorithm in
   gzip)
     algo="--gzip";;
@@ -40,6 +43,7 @@ case $algorithm in
     algo="";;
 esac
 
+#Check the directory is existed
 if [ ! -d "$input_dir" ]; then
     echo "Directory does not exist: ${input_dir}" >&2
     exit 1
