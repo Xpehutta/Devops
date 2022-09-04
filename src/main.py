@@ -1,10 +1,13 @@
-def main(file_name, directory, output_dir):
+def main(file_name, directory, output_dir=None):
     import pandas as pd
     import numpy as np
     from datetime import datetime
 
     PATH = directory + '/' + file_name
-    OUTPUT = output_dir + '/' + 'Results.tsv'
+    try:
+        OUTPUT = output_dir + '/' + 'Results.tsv'
+    except Exception:
+        pass
 
     data = pd.read_csv(PATH, names = ['contact_id', 'client_id', 'employee_id','started_dttm', 'finished_dttm'
                                           , 'business_line', 'route_type', 'initiator_id'], sep = '\t', header=None)
@@ -25,9 +28,13 @@ def main(file_name, directory, output_dir):
 
     filnal_data = pd.pivot_table(data, values='call', index=['employee_id'],
                    columns=['intiator'], aggfunc=np.mean).reset_index()
-
-    with open(OUTPUT, 'w') as f:
+    if output_dir != None:
+        with open(OUTPUT, 'w') as f:
+            for i in filnal_data.values.tolist()[:10]:
+                f.write("{0}\t{1}\t{2}".format(i[0], int(i[1]), int(i[2])))
+                f.write('\n')
+                print("{0}\t{1}\t{2}".format(i[0], int(i[1]), int(i[2])))
+    else:
         for i in filnal_data.values.tolist()[:10]:
-            f.write("{0}\t{1}\t{2}".format(i[0], int(i[1]), int(i[2])))
-            f.write('\n')
             print("{0}\t{1}\t{2}".format(i[0], int(i[1]), int(i[2])))
+        
