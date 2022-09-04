@@ -1,4 +1,4 @@
-def main(file_name = 'contacts', directory, output_dir):
+def main(file_name, directory, output_dir):
     import pandas as pd
     import numpy as np
     from datetime import datetime
