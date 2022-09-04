@@ -8,7 +8,7 @@ def main(file_name = 'contacts', directory, output_dir):
   OUTPUT = output_dir + '/' + 'Results.tsv'
 
   data = pd.read_csv(PATH, names = ['contact_id', 'client_id', 'employee_id','started_dttm', 'finished_dttm'
-                                          , 'business_line', 'route_type', 'initiator_id'], sep = '\t')
+                                          , 'business_line', 'route_type', 'initiator_id'], sep = '\t', header=None)
 
   data['started_dttm'] = pd.to_datetime(data['started_dttm'])
   data['finished_dttm'] = pd.to_datetime(data['finished_dttm'])
