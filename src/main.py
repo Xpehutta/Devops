@@ -1,4 +1,4 @@
-def main(file_name, directory, output_dir=None):
+def main(file_name, directory, return_fl = False, output_dir=None):
     import pandas as pd
     import numpy as np
     from datetime import datetime
@@ -28,13 +28,19 @@ def main(file_name, directory, output_dir=None):
 
     filnal_data = pd.pivot_table(data, values='call', index=['employee_id'],
                    columns=['intiator'], aggfunc=np.mean).reset_index()
+    
+    final_lst = filnal_data.values.tolist()
+    
     if output_dir != None:
         with open(OUTPUT, 'w') as f:
-            for i in filnal_data.values.tolist()[:10]:
+            for i in final_lst[:10]:
                 f.write("{0}\t{1}\t{2}".format(i[0], int(i[1]), int(i[2])))
                 f.write('\n')
                 print("{0}\t{1}\t{2}".format(i[0], int(i[1]), int(i[2])))
     else:
-        for i in filnal_data.values.tolist()[:10]:
+        for i in final_lst[:10]:
             print("{0}\t{1}\t{2}".format(i[0], int(i[1]), int(i[2])))
-        
+    
+    if return_fl:
+        return [[i[0], int(i[1]), int(i[2])] for i in final_lst[:10]]
+
